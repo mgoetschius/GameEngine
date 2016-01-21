@@ -6,6 +6,8 @@
 #include "Texture.h"
 #include "Shader.h"
 
+#include <memory>
+
 class Billboard
 {
 public:
@@ -17,7 +19,7 @@ public:
 private:
 	GLuint vao, vbo, ibo;
 	Shader shader;
-	Texture *texture;
+	std::shared_ptr<Texture> texture;
 
 	glm::mat4 modelMatrix;
 	glm::vec3 translation, rotation, scale;

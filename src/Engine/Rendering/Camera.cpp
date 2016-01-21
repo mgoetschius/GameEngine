@@ -54,11 +54,11 @@ void Camera::Update()
     }
 	if(Input::keys[Input::KEY_E])
 	{
-		cameraPosition.y += .1;
+		cameraPosition.y += .1f;
 	}
 	if(Input::keys[Input::KEY_C] && cameraPosition.y > 1.0)
 	{
-		cameraPosition.y -= .1;
+		cameraPosition.y -= .1f;
 	}
 
 	viewMatrix = glm::lookAt(cameraPosition, cameraPosition-cameraForward, worldUp);

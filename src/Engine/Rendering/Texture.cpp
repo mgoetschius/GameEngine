@@ -35,4 +35,5 @@ GLuint Texture::LoadTexture(const char *filepath)
 
 Texture::~Texture(void)
 {
+	glDeleteTextures(1, &texID);
 }

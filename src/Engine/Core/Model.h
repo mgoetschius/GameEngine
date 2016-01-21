@@ -10,6 +10,7 @@
 #include "../Rendering/Mesh.h"
 
 #include <string>
+#include <memory>
 
 class Model
 {
@@ -25,7 +26,7 @@ public:
 	void SetOrientation(glm::quat orientation) { this->orientation = orientation; };
 	~Model(void);
 protected:
-	std::vector<Mesh> meshes;
+	std::vector<std::shared_ptr<Mesh>> meshes;
 	glm::vec3 translation;
 	glm::vec3 rotation;
 	glm::vec3 scale;

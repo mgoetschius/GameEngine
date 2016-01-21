@@ -58,8 +58,8 @@ void Model::Render(Shader *shader)
         //glDepthFunc(GL_EQUAL);
 	
 	shader->Bind();
-	for(unsigned int i = 0; i < meshes.size(); i++)
-		meshes[i].Render();
+	for(auto &mesh : meshes)
+		mesh->Render();
 }
 
 void Model::LoadMeshes(const char *meshPath)
@@ -127,9 +127,9 @@ void Model::LoadMeshes(const char *meshPath)
 		aiString str;
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
 
-		Mesh m;
-		m.Init(vertices, &indices[0], indices.size(), str.C_Str());
-		meshes.push_back(m);
+		std::shared_ptr<Mesh> m(new Mesh());
+		m->Init(vertices, &indices[0], indices.size(), str.C_Str());
+		meshes.push_back(std::move(m));
 	}
 }
 

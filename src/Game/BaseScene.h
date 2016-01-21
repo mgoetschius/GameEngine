@@ -23,7 +23,8 @@ public:
 	~BaseScene(void);
 private:
 	Shader shader;
-	std::vector<Model> models;
+	//std::vector<Model> models;
+	std::vector<std::shared_ptr<Model>> models;
 	Camera camera;
 
 	Billboard billboard;

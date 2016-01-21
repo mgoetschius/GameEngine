@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>
 
 #include <vector>
+#include <memory>
 
 #include "../Core/Vertex.h"
 #include "Texture.h"
@@ -23,7 +24,7 @@ public:
 	~Mesh(void);
 private:
 	GLuint vao, vbo, ibo;
-	Texture *texture;
+	std::shared_ptr<Texture> texture;
 	unsigned int numVertices;
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;

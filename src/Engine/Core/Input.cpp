@@ -1,7 +1,7 @@
 #include "Input.h"
 
-bool Input::keys[122];
-bool Input::downkeys[122];
+bool Input::keys[350];
+bool Input::downkeys[350];
 
 Input::Input()
 {

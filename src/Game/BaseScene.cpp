@@ -19,13 +19,17 @@ void BaseScene::Init()
 	shader.AddUniform("directionalLight.direction");
 	shader.AddUniform("directionalLight.intensity");
 	shader.AddUniform("directionalLight.ambient");
-	shader.UpdateUniform("directionalLight.direction", glm::vec3(1.0, 0.5, 0.5));
-	shader.UpdateUniform("directionalLight.intensity", glm::vec3(0.6));
-	shader.UpdateUniform("directionalLight.ambient", glm::vec3(0.2));
+	shader.UpdateUniform("directionalLight.direction", glm::vec3(1.0f, 0.5f, 0.5f));
+	shader.UpdateUniform("directionalLight.intensity", glm::vec3(0.6f));
+	shader.UpdateUniform("directionalLight.ambient", glm::vec3(0.2f));
 
-	camera.Init(45.0, GameEngine::windowWidth, GameEngine::windowHeight, 0.1, 1000);
-	camera.SetCameraPosition(glm::vec3(0.0, 1.0, -8.0));
-
+	camera.Init(45.0f, GameEngine::windowWidth, GameEngine::windowHeight, 0.1f, 1000.0f);
+	camera.SetCameraPosition(glm::vec3(0.0f, 1.0f, -8.0f));
+	
+	std::shared_ptr<Model> model(new Model());
+	model->Init("./res/Models/groundplane.dae");
+	models.push_back(model);
+	/*
 	Model m;
 	m.Init("./res/Models/groundplane.dae");
 	models.push_back(m);
@@ -35,7 +39,7 @@ void BaseScene::Init()
 	c.SetTranslation(glm::vec3(0, 0, -5));
 	c.Update();
 	//models.push_back(c);
-
+	*/
 	billboard.Init("./res/Textures/billboard.png");
 	
 }
@@ -43,8 +47,9 @@ void BaseScene::Init()
 void BaseScene::Update(SceneManager *manager, double delta)
 {
 	camera.Update();
-	for(Model &model : models)
-		model.Update();
+	
+	for(std::shared_ptr<Model> &model : models)
+		model->Update();
 
 	manager->ChangeScene();
 		
@@ -59,11 +64,11 @@ void BaseScene::Render()
 	shader.UpdateUniform("pMatrix", p);
 	shader.UpdateUniform("vMatrix", v);
 
-	for(Model &model : models)
+	for(std::shared_ptr<Model> &model : models)
 	{
-		glm::mat4 mv = camera.getViewMatrix() * model.GetModelMatrix();
+		glm::mat4 mv = camera.getViewMatrix() * model->GetModelMatrix();
 		shader.UpdateUniform("mvMatrix", mv);
-		model.Render(&shader);
+		model->Render(&shader);
 	}
 	
 	billboard.Render(v, p);

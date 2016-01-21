@@ -14,7 +14,7 @@ void Billboard::Init(const char *texturePath)
 	shader.AddUniform("mvpMatrix");
 
 	texture = ResourceManager::LoadTexture(texturePath);
-
+	
 	GLfloat vertexData[] = 
 		{-0.5, -0.5, 0.0, 0.0, 1.0,
 		  0.5, -0.5, 0.0, 1.0, 1.0,
