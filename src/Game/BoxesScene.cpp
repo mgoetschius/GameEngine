@@ -59,7 +59,7 @@ void BoxesScene::Update(SceneManager *manager, double delta)
 	dt = thisTime - lastTime;
 	lastTime = thisTime;
 
-	physicsWorld.Update((float)dt);
+	physicsWorld.Update((float)dt, camera.getProjectionMatrix() * camera.getViewMatrix());
 
 	manager->ChangeScene();
 		

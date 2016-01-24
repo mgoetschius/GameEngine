@@ -14,5 +14,6 @@ public:
 private:
 	btScalar mass;
 	btDefaultMotionState *motionState;
+	btRigidBody *body2;
 };
 

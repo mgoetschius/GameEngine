@@ -11,6 +11,7 @@ PhysicsWorld::PhysicsWorld(void)
 	solver = 0;
 	dynamicsWorld = 0;
 	
+	doDebugDraw = false;
 }
 
 void PhysicsWorld::Init()
@@ -24,11 +25,26 @@ void PhysicsWorld::Init()
 	gravity = btVector3(0, -10, 0);
 
 	dynamicsWorld->setGravity(gravity);
+
+	debugDrawer = new DebugDrawer();
+	dynamicsWorld->setDebugDrawer(debugDrawer);
 }
 
-void PhysicsWorld::Update(float delta)
+void PhysicsWorld::Update(const float delta, const glm::mat4 &vpMatrix)
 {
 	dynamicsWorld->stepSimulation(delta, 10);
+	//if(doDebugDraw)
+		//dynamicsWorld->debugDrawWorld();
+	//debugDrawer->Render(vpMatrix);
+	//debugDrawer->Flush();
+}
+
+void PhysicsWorld::Render(const glm::mat4 &vpMatrix)
+{
+	if(doDebugDraw)
+		dynamicsWorld->debugDrawWorld();
+	debugDrawer->Render(vpMatrix);
+	debugDrawer->Flush();
 }
 
 void PhysicsWorld::AddCollisionShape(btCollisionShape *shape)
@@ -71,4 +87,6 @@ PhysicsWorld::~PhysicsWorld(void)
 	delete collisionConfiguration;
 
 	collisionShapes.clear();
+
+	delete debugDrawer;
 }
