@@ -42,14 +42,13 @@ void PhysicsModel::Init(const char *meshPath, PhysicsWorld *physicsWorld, float 
 
 	motionState = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
-	btRigidBody *body = new btRigidBody(rbInfo);
+	body = new btRigidBody(rbInfo);
 
 	physicsWorld->AddBody(body);
 }
 
 void PhysicsModel::Update()
 {
-	btTransform trans;
 	motionState->getWorldTransform(trans);
 	translation = glm::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ());
 	orientation = glm::quat(trans.getRotation().getW(), trans.getRotation().getX(), trans.getRotation().getY(), trans.getRotation().getZ());

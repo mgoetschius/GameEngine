@@ -12,6 +12,7 @@ PhysicsWorld::PhysicsWorld(void)
 	dynamicsWorld = 0;
 	
 	doDebugDraw = false;
+	debugDrawer = 0;
 }
 
 void PhysicsWorld::Init()
@@ -33,18 +34,16 @@ void PhysicsWorld::Init()
 void PhysicsWorld::Update(const float delta, const glm::mat4 &vpMatrix)
 {
 	dynamicsWorld->stepSimulation(delta, 10);
-	//if(doDebugDraw)
-		//dynamicsWorld->debugDrawWorld();
-	//debugDrawer->Render(vpMatrix);
-	//debugDrawer->Flush();
 }
 
 void PhysicsWorld::Render(const glm::mat4 &vpMatrix)
 {
 	if(doDebugDraw)
+	{
 		dynamicsWorld->debugDrawWorld();
-	debugDrawer->Render(vpMatrix);
-	debugDrawer->Flush();
+		debugDrawer->Render(vpMatrix);
+		debugDrawer->Flush();
+	}
 }
 
 void PhysicsWorld::AddCollisionShape(btCollisionShape *shape)

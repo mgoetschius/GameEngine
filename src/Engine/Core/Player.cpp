@@ -45,55 +45,54 @@ void Player::Init(const char *meshPath, PhysicsWorld *physicsWorld, float mass)
 
 	motionState = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
-	//btRigidBody *body = new btRigidBody(rbInfo);
-	body2 = new btRigidBody(rbInfo);
+	
+	body = new btRigidBody(rbInfo);
 
-	body2->setFriction(1.75);
-	body2->setAngularFactor(btVector3(0.0, 0.0, 0.0));
-	body2->setActivationState(DISABLE_DEACTIVATION);
+	body->setFriction(1.75);
+	body->setAngularFactor(btVector3(0.0, 0.0, 0.0));
+	body->setActivationState(DISABLE_DEACTIVATION);
 	
 
-	physicsWorld->AddBody(body2);
+	physicsWorld->AddBody(body);
 }
 
 void Player::Update()
 {
-	//body2->applyCentralImpulse(btVector3(0,0,5));
-	//body2->applyCentralForce(btVector3(0, 0, 525));
+	//body->applyCentralImpulse(btVector3(0,0,5));
+	//body->applyCentralForce(btVector3(0, 0, 525));
 	btTransform tran;
-	body2->getMotionState()->getWorldTransform(tran);
+	body->getMotionState()->getWorldTransform(tran);
 	//std::cout << tran.getOrigin().getZ() << std::endl;
 
 	btVector3 velocity;
-	velocity = body2->getLinearVelocity();
+	velocity = body->getLinearVelocity();
 	
 	if(Input::IsDown(Input::KEY_K))
 	{
-			body2->setLinearVelocity(btVector3(velocity.getX(), velocity.getY(), 2.9));
+			body->setLinearVelocity(btVector3(velocity.getX(), velocity.getY(), 2.9));
 			//body2->applyCentralForce(btVector3(0, 0, 500));
 	}
 	if(Input::IsDown(Input::KEY_I))
-		body2->setLinearVelocity(btVector3(velocity.getX(), velocity.getY(), -2.9));
+		body->setLinearVelocity(btVector3(velocity.getX(), velocity.getY(), -2.9));
 	if(Input::IsDown(Input::KEY_J))
-		body2->setLinearVelocity(btVector3(-2.9, velocity.getY(), velocity.getZ()));
+		body->setLinearVelocity(btVector3(-2.9, velocity.getY(), velocity.getZ()));
 	if(Input::IsDown(Input::KEY_L))
-		body2->setLinearVelocity(btVector3(2.9, velocity.getY(), velocity.getZ()));
+		body->setLinearVelocity(btVector3(2.9, velocity.getY(), velocity.getZ()));
 
 	if(Input::IsDown(Input::KEY_UP))
 		if(velocity.getZ() > -3.0)
-			body2->applyCentralForce(btVector3(0,0,-1000));
+			body->applyCentralForce(btVector3(0,0,-1000));
 	if(Input::IsDown(Input::KEY_DOWN))
 		if(velocity.getZ() < 3.0)
-			body2->applyCentralForce(btVector3(0,0,1000));
+			body->applyCentralForce(btVector3(0,0,1000));
 	if(Input::IsDown(Input::KEY_LEFT))
 		if(velocity.getX() > -3.0)
-			body2->applyCentralForce(btVector3(-1000,0,0));
+			body->applyCentralForce(btVector3(-1000,0,0));
 	if(Input::IsDown(Input::KEY_RIGHT))
 		if(velocity.getX() < 3.0)
-			body2->applyCentralForce(btVector3(1000,0,0));
+			body->applyCentralForce(btVector3(1000,0,0));
 		
 	
-	btTransform trans;
 	motionState->getWorldTransform(trans);
 	translation = glm::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ());
 	orientation = glm::quat(trans.getRotation().getW(), trans.getRotation().getX(), trans.getRotation().getY(), trans.getRotation().getZ());

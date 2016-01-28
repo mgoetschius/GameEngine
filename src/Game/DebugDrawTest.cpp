@@ -43,7 +43,6 @@ void DebugDrawTest::Init()
 	pm->Init("./res/Models/redbox.dae", &physicsWorld, 1.0);
 	pm->Update();
 	physicsModels.push_back(std::move(pm));
-
 }
 
 void DebugDrawTest::Update(SceneManager *manager, double delta)

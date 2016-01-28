@@ -1,9 +1,10 @@
 #pragma once
 #include "Model.h"
+#include "PhysicsModel.h"
 #include "../Core/Input.h"
 #include <btBulletDynamicsCommon.h>
 #include "../Physics/PhysicsWorld.h"
-class Player : public Model
+class Player : public PhysicsModel
 {
 public:
 	Player(void);
@@ -14,6 +15,5 @@ public:
 private:
 	btScalar mass;
 	btDefaultMotionState *motionState;
-	btRigidBody *body2;
 };
 

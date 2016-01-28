@@ -10,8 +10,10 @@ public:
 	void Init(const char *meshPath, PhysicsWorld *physicsWorld, float mass);
 	void Update();
 	~PhysicsModel(void);
-private:
+protected:
 	btScalar mass;
 	btDefaultMotionState *motionState;
+	btRigidBody *body;
+	btTransform trans;
 };
 
