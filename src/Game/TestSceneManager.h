@@ -5,6 +5,7 @@
 #include "BoxesScene.h"
 #include "MovablePlayerScene.h"
 #include "DebugDrawTest.h"
+#include "TriMeshScene.h"
 
 class TestSceneManager :
 	public SceneManager

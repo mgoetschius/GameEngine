@@ -41,6 +41,13 @@ void TestSceneManager::ChangeScene()
 		scene->Init();
 		ResourceManager::ClearTextures();
 	}
+	if(Input::IsPressed(Input::KEY_5))
+	{
+		delete scene;
+		scene = new TriMeshScene();
+		scene->Init();
+		ResourceManager::ClearTextures();
+	}
 }
 
 

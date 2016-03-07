@@ -1,13 +1,13 @@
-#include "MovablePlayerScene.h"
+#include "TriMeshScene.h"
 
 
-MovablePlayerScene::MovablePlayerScene(void)
+TriMeshScene::TriMeshScene(void)
 {
 	dt = 0;
-	lastTime = thisTime = glfwGetTime();
+	lastTime = glfwGetTime();
 }
 
-void MovablePlayerScene::Init()
+void TriMeshScene::Init()
 {
 	shader.AddShader(GL_VERTEX_SHADER, "./res/Shaders/vertex.vs");
 	shader.AddShader(GL_FRAGMENT_SHADER, "./res/Shaders/fragment.fs");
@@ -28,35 +28,25 @@ void MovablePlayerScene::Init()
 
 	physicsWorld.Init();
 	physicsWorld.SetDoDebugDraw(true);
-
-	std::shared_ptr<PhysicsModel> pm(new PhysicsModel());
-	pm->SetScale(glm::vec3(20, 0.01, 20));
-	pm->Init("./res/Models/greenbox.dae", &physicsWorld, 0.0);
-	models.push_back(std::move(pm));
-
-	pm.reset(new PhysicsModel());
-	pm->SetTranslation(glm::vec3(4.0, 0.0, 4.0));
-	pm->Init("./res/Models/redbox.dae", &physicsWorld, 1.0);
-	models.push_back(std::move(pm));
-
-	pm.reset(new PhysicsModel());
-	pm->SetTranslation(glm::vec3(-4.0, 0.0, -2.0));
-	pm->Init("./res/Models/yellowbox.dae", &physicsWorld, 1.0);
+	
+	std::shared_ptr<PhysicsModelTriMesh> pm(new PhysicsModelTriMesh());
+	//pm->SetScale(glm::vec3(20, 0.01, 20));
+	pm->Init("./res/Models/ramp.dae", &physicsWorld);
 	models.push_back(std::move(pm));
 	
-	std::shared_ptr<Player> player(new Player());
-	player->SetTranslation(glm::vec3(4.0, 2.0, -5.0));
-	player->Init("./res/Models/player.dae", &physicsWorld, 65.0);
-	models.push_back(std::move(player));
-
 	std::shared_ptr<PhysicsModel> ball(new PhysicsModelSphere());
-	ball->SetTranslation(glm::vec3(0.0, 12.0, -2.0));
+	ball->SetTranslation(glm::vec3(0.0, 12.0, -8.0));
 	ball->Init("./res/Models/redsphere.dae", &physicsWorld, 45.0);
 	models.push_back(std::move(ball));
 	
+	std::shared_ptr<Player> player(new Player());
+	player->SetTranslation(glm::vec3(4.0, 2.0, 0.0));
+	player->Init("./res/Models/player.dae", &physicsWorld, 65.0);
+	models.push_back(std::move(player));
+	
 }
 
-void MovablePlayerScene::Update(SceneManager *manager, double delta)
+void TriMeshScene::Update(SceneManager *manager, double delta)
 {
 	camera.Update();
 	for(std::shared_ptr<Model> pm : models)
@@ -71,7 +61,7 @@ void MovablePlayerScene::Update(SceneManager *manager, double delta)
 	manager->ChangeScene();
 }
 
-void MovablePlayerScene::Render()
+void TriMeshScene::Render()
 {
 	shader.Bind();
 	glm::mat4 p = camera.getProjectionMatrix();
@@ -87,10 +77,10 @@ void MovablePlayerScene::Render()
 		pm->Render(&shader);
 	}
 
-	physicsWorld.Render(p*v);
+	//physicsWorld.Render(p*v);
 }
 
 
-MovablePlayerScene::~MovablePlayerScene(void)
+TriMeshScene::~TriMeshScene(void)
 {
 }

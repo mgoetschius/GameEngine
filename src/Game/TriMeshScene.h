@@ -5,22 +5,23 @@
 #include "../Engine/Rendering/Camera.h"
 #include "../Engine/Physics/PhysicsWorld.h"
 #include "../Engine/Core/PhysicsModel.h"
+#include "../Engine/Core/PhysicsModelTriMesh.h"
 #include "../Engine/Core/PhysicsModelSphere.h"
 #include "../Engine/Core/Player.h"
 
 #include <vector>
 #include <memory>
 
-class MovablePlayerScene :
+class TriMeshScene :
 	public Scene
 {
 public:
-	MovablePlayerScene(void);
+	TriMeshScene(void);
 	void Init();
 	void Update(SceneManager *manager, double delta);
 	void Render();
-	~MovablePlayerScene(void);
-private:
+	~TriMeshScene(void);
+
 	Shader shader;
 	std::vector<std::shared_ptr<Model>> models;
 	Camera camera;

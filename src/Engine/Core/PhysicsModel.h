@@ -7,7 +7,7 @@ class PhysicsModel :
 {
 public:
 	PhysicsModel(void);
-	void Init(const char *meshPath, PhysicsWorld *physicsWorld, float mass);
+	virtual void Init(const char *meshPath, PhysicsWorld *physicsWorld, float mass);
 	void Update();
 	~PhysicsModel(void);
 protected:

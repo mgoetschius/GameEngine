@@ -1,7 +1,7 @@
-#include "PhysicsModel.h"
+#include "PhysicsModelSphere.h"
 
 
-PhysicsModel::PhysicsModel(void)
+PhysicsModelSphere::PhysicsModelSphere(void)
 {
 	minX = std::numeric_limits<float>::max();
     maxX = std::numeric_limits<float>::min();
@@ -15,17 +15,16 @@ PhysicsModel::PhysicsModel(void)
 	orientation = glm::quat(1,0,0,0);
 
 	motionState = 0;
+	body = 0;
 }
 
-void PhysicsModel::Init(const char *meshPath, PhysicsWorld *physicsWorld, float mass)
+void PhysicsModelSphere::Init(const char *meshPath, PhysicsWorld *physicsWorld, float mass)
 {
+	std::cout << "in sphere init\n";
 	LoadMeshes(meshPath);
-
 	this->mass = mass;
 
-	btVector3 size(btScalar(((maxX-minX)/2)*scale.x), btScalar(((maxY-minY)/2)*scale.y), btScalar(((maxZ-minZ)/2)*scale.z));
-
-	btCollisionShape *colShape = new btBoxShape(size);
+	btCollisionShape *colShape = new btSphereShape((maxX-minX)/2);
 	physicsWorld->AddCollisionShape(colShape);
 
 	btTransform transform;
@@ -42,16 +41,26 @@ void PhysicsModel::Init(const char *meshPath, PhysicsWorld *physicsWorld, float 
 
 	motionState = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, colShape, localInertia);
-	rbInfo.m_restitution = 0.1;
+	rbInfo.m_friction = 0.5;
+	rbInfo.m_restitution = 0.5;
 	body = new btRigidBody(rbInfo);
+
 	physicsWorld->AddBody(body);
-	std::cout << rbInfo.m_restitution << std::endl;
 }
 
-void PhysicsModel::Update()
+void PhysicsModelSphere::Update()
 {
-	//btMotionState *ms = body->getMotionState();
-	//ms->getWorldTransform(trans);
+	//temp code for testing to be removed
+	/*
+	if(Input::IsDown(Input::KEY_UP))
+			body->applyCentralForce(btVector3(0,0,-1000));
+	if(Input::IsDown(Input::KEY_LEFT))
+			body->applyCentralForce(btVector3(-500,0,0));
+	if(Input::IsDown(Input::KEY_RIGHT))
+			body->applyCentralForce(btVector3(500,0,0));
+	*/
+	//end temp code
+
 	motionState->getWorldTransform(trans);
 	translation = glm::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ());
 	orientation = glm::quat(trans.getRotation().getW(), trans.getRotation().getX(), trans.getRotation().getY(), trans.getRotation().getZ());
@@ -63,10 +72,9 @@ void PhysicsModel::Update()
 	glm::mat4 s(1.0);
 	s = glm::scale(s, scale);
 	modelMatrix = transform * rot * s;
-	
 }
 
 
-PhysicsModel::~PhysicsModel(void)
+PhysicsModelSphere::~PhysicsModelSphere(void)
 {
 }
